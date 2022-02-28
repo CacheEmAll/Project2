@@ -41,7 +41,26 @@ export class ReviewpageComponent implements OnInit {
       this.rev=this.rs.reviewsarray
       console.log(this.rs.reviewsarray)
       if(this.rs.reviewsarray === null){
-        this.isVisible=true;
+        this.ps.getPokemonFromApinum(this.rs.pokeid).subscribe(
+          (data:any)=>{
+            console.log(data.body)
+            this.pokemon=data.body;
+          }
+        )
+            this.isVisible=true;
+            this.numof1=0;
+            this.numof2=0;
+            this.numof3=0;
+            this.numof4=0;
+            this.numof5=0;
+            this.sum=0;
+            this.percentof1=0;
+            this.percentof2=0;
+            this.percentof3=0;
+            this.percentof4=0;
+            this.percentof5=0;
+            console.log("no reviews")
+        
       }
       for(var i = 0; i < this.rev.length; ++i){
         if(this.rev[i].rating === 1)

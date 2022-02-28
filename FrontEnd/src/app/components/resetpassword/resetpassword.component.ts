@@ -7,6 +7,9 @@ import { of } from 'rxjs';
 import { error } from '@angular/compiler/src/util';
 import { User } from 'src/app/models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ActivatedRoute } from '@angular/router';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,6 +19,8 @@ const httpOptions = {
     'Access-Control-Allow-Origin': '*'
   })
 };
+
+
 
 @Component({
   selector: 'app-resetpassword',
@@ -53,7 +58,11 @@ export class ResetpasswordComponent implements OnInit {
   pswrd: String;
 
   reset!: FormGroup;
-  constructor(private _http: HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router, private afAuth: AngularFireAuth, private route: ActivatedRoute) { }
+
+   code = this.route.snapshot.queryParams['oobCode'];
+  //  userEmail = this.reset.controls['email'].value;
+  // userEmail = this.reset.controls['email'].value;
 
   getUserByUsername(lusername: any): Observable<HttpResponse<User>> {
     return this._http.get<any>("http://localhost:3000/user/username/" + lusername + "/", { observe: "response" }) as Observable<HttpResponse<User>>
@@ -69,13 +78,32 @@ export class ResetpasswordComponent implements OnInit {
   }
   resetpasswordusr(e: any) {
 
-    
-
     if (e) {
       e.preventDefault(); //prevents default form behavior
     }
 
-    let uname = this.username;
+    // this.afAuth.confirmPasswordReset(this.code, this.reset.value.password).then(()=>{
+    //   console.log("Password successfully reset in firebase");
+    // });
+
+    
+    
+
+    // const email = this.frmPasswordReset.controls['email'].value;
+
+    // this.afAuth.auth.sendPasswordResetEmail(email).then(
+    //   () => {
+    //     // success, show some message
+    //   },
+    //   err => {
+    //     // handle errors
+    //   }
+    // );
+    
+
+
+
+    let uname = this.reset.value.email;
     console.log("The username is..." + uname);
     //--------------------------------------
 
@@ -104,12 +132,12 @@ export class ResetpasswordComponent implements OnInit {
 
     setTimeout(() => {
       console.log("user ID from DB...:" + this.usrID);
-      if (this.password != this.pswrd) {
+      if (this.reset.value.password != this.pswrd) {
         let user = {
           user_id: this.usrID,
-          username: this.username,
-          password: this.password,
-          email_address: this.email,
+          username: this.reset.value.email,
+          password: this.reset.value.password,
+          email_address: this.reset.value.email,
           credit_card_name: this.card_name,
           credit_card_number: this.card_number,
           first_name: this.firstname,
@@ -117,14 +145,14 @@ export class ResetpasswordComponent implements OnInit {
           Phone_number: this.phonenumber,
           Physical_address: this.physicaladdress
         };
-        console.log(this.username);
-        console.log(this.password);
+        console.log(this.reset.value.email);
+        console.log(this.reset.value.password);
         console.log(user);
         let Credentials = { withCredentials: true };
 
         let response = this._http.put<any>("http://localhost:3000/reset", user, httpOptions,).subscribe(
           {
-            next: (v) => this.router.navigate(['/']),
+            next: (v) => this.resetPasswdFirebase(),
             error: (e) => console.error(this.msgError = "User name or password is undefined "),
             complete: () => console.info('Complete')
           });
@@ -136,6 +164,22 @@ export class ResetpasswordComponent implements OnInit {
       }
     }, 1000);
 
+  }
+
+  resetPasswdFirebase(){
+    this.afAuth.sendPasswordResetEmail(this.reset.value.email).then(
+      () => {
+         console.log("Password successfully reset in firebase");
+         this.afAuth.confirmPasswordReset(this.code, this.reset.value.password).then(()=>{
+            console.log("Password successfully confirmed in firebase");
+          });
+      },
+      err => {
+          console.log("Password NOT successfully reset in firebase");
+      }
+    );
+
+    this.router.navigate(['/'])
   }
 
 }

@@ -3,8 +3,19 @@
     <!-- Login Elements Here -->
     <div id="signupRow" class="row">
         <h3>Please Enter your Review</h3>
-        <input id="rating" placeholder="Rating (1-5)" class="col-sm-4" [(ngModel)]="rating"/>
-        <input id="discription"  placeholder="Description" class="col-sm-4" [(ngModel)]="disc"/>
+        <!-- <input id="rating" placeholder="Rating (1-5)" class="col-sm-4" [(ngModel)]="rating"/> -->
+        <form >
+        <label for="ratings">Rating (1-5)</label>
+        <select [(ngModel)]="rating" name="ratings" id="ratings" required>
+            <option [value]="1" >1</option>
+            <option [value]="2">2</option>
+            <option [value]="3" >3</option>
+            <option [value]="4" >4</option>
+            <option [value]="5" >5</option>
+
+        </select>
+    </form>
+        <textarea rows="4" cols="30" id="discription" type="text" placeholder="Description" class="col-sm-4" [(ngModel)]="disc"></textarea>
 
         <button id="submit" class="btn btn-primary col-sm-4" (click)="submitrev()">submit</button>
         

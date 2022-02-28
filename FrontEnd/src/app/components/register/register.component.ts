@@ -96,7 +96,7 @@ export class RegisterComponent implements OnInit {
           
           next: (v) => this.router.navigate(['/']),  
           // console.log("reponse rcieved"),
-          error: (e) => console.error(this.msgError="User name or email  is alredy registered"),
+          error: (e) => console.error(this.msgError="Email is already registered"),
           complete: () => console.info('Complete')
         });
 

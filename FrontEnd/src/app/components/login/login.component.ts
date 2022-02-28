@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
     // this.response=this._http.post("localhost:3000/login",this.user, this.Credentials );
     this.signInForm = new FormGroup({
       'password': new FormControl('', Validators.required),
-      'email': new FormControl('', Validators.required)
+      'email': new FormControl('', [Validators.required, Validators.email])
     });
   }
   Loginusr(e:any){

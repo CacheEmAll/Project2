@@ -135,7 +135,7 @@ export class ResetpasswordComponent implements OnInit {
       if (this.reset.value.password != this.pswrd) {
         let user = {
           user_id: this.usrID,
-          username: this.reset.value.email,
+          username: this.username,
           password: this.reset.value.password,
           email_address: this.reset.value.email,
           credit_card_name: this.card_name,
@@ -170,9 +170,9 @@ export class ResetpasswordComponent implements OnInit {
     this.afAuth.sendPasswordResetEmail(this.reset.value.email).then(
       () => {
          console.log("Password successfully reset in firebase");
-         this.afAuth.confirmPasswordReset(this.code, this.reset.value.password).then(()=>{
-            console.log("Password successfully confirmed in firebase");
-          });
+        //  this.afAuth.confirmPasswordReset(this.code, this.reset.value.password).then(()=>{
+        //     console.log("Password successfully confirmed in firebase");
+        //   });
       },
       err => {
           console.log("Password NOT successfully reset in firebase");

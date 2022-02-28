@@ -91,7 +91,7 @@ public lusername= window.localStorage.getItem("username");
     this.rs.sendrev(this.rating,this.disc,pokenum,this.user).subscribe(
       (data:any)=>{
         console.log(data)
-        this.htmltoadd='<div class="text-center text-muted mt-5 mb-0">Submit succesful</div>'
+        this.htmltoadd='<div class="text-center text-muted mt-5 mb-0">Submit successfully</div>'
         setTimeout(() => {
           window.close();
         }, 3000);

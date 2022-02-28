@@ -44,7 +44,7 @@
                     <button mat-raised-button (click)="addToWishList(pokemon)" color="primary" id="wishlistButton">To Wishlist</button>
                 </mat-card-actions>
                 <mat-card-actions>
-                    <button mat-raised-button (click)="reviews(pokemon.id)" routerLink="/reviews">Reviews</button>
+                    <button mat-raised-button (click)="reviews(pokemon.id)" [routerLink]="['/reviews/', pokemon.id]">Reviews</button>
                 </mat-card-actions>
             </mat-card>
         </div>

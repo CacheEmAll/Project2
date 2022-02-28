@@ -56,7 +56,7 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" style="width: {{this.percentof5}}%;"></span>
+                                        <span class="progress-fill" style="width: {{    this.percentof5}}%;"></span>
                                     </div>
                                 </div>
                             </td>
@@ -135,11 +135,11 @@
         <h2>Reviews: </h2>
 
         <hr>
-        <form *ngIf="isVisible">no reviews</form>
+        <form *ngIf="isVisible">No Reviews</form>
         <form *ngIf="isVisible==false">
         <ul *ngFor="let reviews of rev">
             <li >
-                 rating: {{reviews.rating}}<br>
+                 Rating: {{reviews.rating}}<br>
                     {{reviews.review}} 
                     
                     

@@ -6,11 +6,13 @@
 <div class="wishlist_container">   
    
     <mat-table class="wishlist_display"> 
-    <div class="wishlist_item" *ngFor="let wish of wishlist">
-        <h3 style="font-style: italic;">{{wish.name | titlecase}}</h3>
-        <h3 style="font-size: 16px;font-weight: bold;">${{(((wish.id * .01) * 543).toFixed(2))}}</h3>
-        <img src="{{wish.sprites.front_default}}"/> <br/>
-        <button (click)="removeWishlist(wish.wishListId)"  >{{wish.wishListId}}remove from list</button>
+    <div class="wishlist_item" *ngFor="let wish of pokemonWithWishlistArray">
+        <h3 style="font-style: italic;">{{wish.pokemon.name | titlecase}}</h3>
+        <h3 style="font-size: 16px;font-weight: bold;">${{(((wish.pokemon.id * .01) * 543).toFixed(2))}}</h3>
+        <img src="{{wish.pokemon.sprites.front_default}}"/>
+        <br/>
+        <button (click)="removeWishlist(wish.wishlistId)"  >add to cart</button><br/> <br/>
+        <button (click)="removeWishlist(wish.wishlistId)"  >{{wish.wishlistId}}remove from list</button>
     </div>
     
     </mat-table>
@@ -21,5 +23,5 @@
        <!-- <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a>-->
       </div>
 </div>
-<div> <button (click)="saveWishlist()">save my list</button></div>
+
 <app-footer></app-footer>

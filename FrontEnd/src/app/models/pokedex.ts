@@ -8,8 +8,8 @@ export class Pokedex {
 
 export class UserId {
         constructor(
-        public user_id: String,
-        public username: String
+        public user_id: number | null,
+        public username: String | null
     ){}
 }
 

@@ -60,6 +60,9 @@ export class PokeDataService{
   getPokemonFromApi(name:string):Observable<HttpResponse<Pokemon>>{
     return this.http.get("https://pokeapi.co/api/v2/pokemon/" + name + "/", {observe: "response"})as Observable<HttpResponse<Pokemon>>
   }
+  getPokemonFromApi2(name:number):Observable<Pokemon>{
+    return this.http.get("https://pokeapi.co/api/v2/pokemon/" + name)as Observable<Pokemon>
+  }
 
   //for my history
   getPokemonById(id:string):Observable<HttpResponse<Pokemon>>{

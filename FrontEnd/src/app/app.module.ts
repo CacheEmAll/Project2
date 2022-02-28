@@ -45,7 +45,7 @@ import { environment } from 'src/environments/environment';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { ReviewpageComponent } from './components/reviewpage/reviewpage.component';
 import { BundleComponent } from './components/bundle/bundle.component';
-;
+//import {Pokemon} from './src/app/pokemon';
 
 @NgModule({
   //declarations : the components, directives, and pipes that belong to this NgModule
@@ -89,6 +89,7 @@ import { BundleComponent } from './components/bundle/bundle.component';
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule // storage
+    //Pokemon
   ],
   //app.module.ts doesn't require exports here b/c it's the root of the application but it is a subset of declarations
   // that should be visible and usable in the component templates of other NgModules

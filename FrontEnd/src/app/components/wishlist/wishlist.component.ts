@@ -15,7 +15,39 @@ const httpOptions   = {
     'Access-Control-Allow-Origin': '*'
   })
 };
+ interface Pokemon {
+  // id: number;
+  results: [],
+  id: number,
+  name:string,
+  url: string,
+  types: Object,
+  sprites: [],
+  front_shiny:string
+  //wishListId:number
+  
+}
+class User1 {
+  
+    public user_id:number;
+  public username: String;
+  public password: String;
+  public email_address: String;
+  public credit_card_name :String;
+  public credit_card_number : String;
+  public first_name: String;
+  public Last_name: String;
+  public Phone_number: String;
+  public Physical_address: String
+  
+}
+class WishlistAndPokemon{
+ // id:number;
+ public wishlistId:number;
+ public  pokemon:any;//Pokemon;
 
+ 
+}
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
@@ -28,19 +60,23 @@ export class WishlistComponent implements OnInit {
   //localStorage: LocalStorage;
    username= localStorage.getItem("username") ;
     //user=localStorage.getItem("user") ;
-  userId: string;
+  userId: User1;
+ user :number;
   pokemonId: string;
   userInfo: any = [];
   pokemon_id: any = [];
   public pid: string = '';
-  // pokedexInventory: any = [];
-
+  //pokemon with wishlist id
+  pokemonWithWishlistArray: Array<WishlistAndPokemon>=[];
+  wishpok=new  WishlistAndPokemon();
+  
   pokemonArray: any = [];
   pokemonArray2: any = [];
   //public lusername= window.localStorage.getItem("username");
   response : any ;
   msgError ="";
   Credentials = {withCredentials: true};
+  id: string;
   
   constructor(private _http : HttpClient, private ps: PokeDataService
     ) {}
@@ -55,35 +91,42 @@ export class WishlistComponent implements OnInit {
   
   }
   ngOnInit(): void {
-    this.wishlist=this.ps.wishList;
-    for(let w of this.wishlist)
-      this.mylist.push( w.id);
-   /* this.getUserId(this.user).subscribe(
-      (data:any) => {
-        this.userInfo = data;
-        // console.log(this.userInfo);
-        for(let response of data.body){
-          this.userId = response.user_id;
-          this.getWishlistByUserId(this.userId).subscribe(
-            (data2:any) => {
-              this.wishlist = data2;
-              console.log(this.wishlist);
-              data2.body.forEach((result: {pokemon_id: string}) => {
-                // console.log(result.pokemon_id);
-                this.ps.getPokemonById(result.pokemon_id).subscribe(
-                  (res:any) => {
-                    
-                    this.pokemonArray.push(res.body);
-                    console.log(this.pokemonArray);
-                  }
-
-                )
-              })
-            }
-          )
-        }
+    console.log(this.username);
+     
+    this.getUserId(this.username).subscribe(
+      (data:any) =>{
+        this.userId= data[0];
+        this.id=JSON.stringify(this.userId.user_id);
+        console.log("this id "+this.id);
+     // })
+       /* let x = this.user.first_name;
+        for (let x of this.user){
+        this.userId = x.user_id;
+        console.log(this.userId)});*/
+  //if(this.id)
+ // {
+     let response=this._http.get("http://localhost:3000/wishlist/user/"+  this.id)
+    .subscribe(
+       (data: any)=>{
+      for(let wishlst of data)
+      {
+        console.log("wishlist id  "+wishlst.pokemon_id);
+        //get pokemon
+       let pokmn= this.ps.getPokemonFromApi2(wishlst.pokemon_id).subscribe( (data1)=>{
+       console.log("data pokemon json " + ( data1));
+       //create model that has wishlist id and the pokemon
+       this.wishpok.pokemon=data1;
+       this.wishpok.wishlistId=wishlst.wishlist_id;
+        //in html we are going to use this list
+       this.pokemonWithWishlistArray.push(this.wishpok); })
+      
       }
-    )*/
+    })
+      
+ });
+      
+     
+    
   }
   saveWishlist()
   {
@@ -100,8 +143,9 @@ export class WishlistComponent implements OnInit {
      {observe: "response"}) as Observable<HttpResponse<Wishlist>>
   }
 
-  getUserId(user:any):Observable<HttpResponse<UserId>>{
-    return this._http.get("http://localhost:3000/user/username/" + user, {observe: "response"}) as Observable<HttpResponse<UserId>>
+  getUserId(user:any):Observable<User1>{
+    console.log("the user is "+user)
+    return this._http.get("http://localhost:3000/user/username/" + user) as Observable<User1>
   }
 }
 function arr(arg0: string, arr: any) {
